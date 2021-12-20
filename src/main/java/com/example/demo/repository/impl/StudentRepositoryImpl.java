@@ -5,8 +5,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
 
 
 public class StudentRepositoryImpl  implements CustomStudentRepository {
@@ -23,13 +21,16 @@ public class StudentRepositoryImpl  implements CustomStudentRepository {
                 .where(qStudent.clazz.id.eq(id)).fetchCount();
     }
 
-//    @Override
-//    public Map<Long, Long> countStudentByClazz(List<Long> classIds) {
-//        QStudent qStudent = QStudent.student;
-//        JPAQuery<Clazz> query = new JPAQuery<>(this.entityManager);
-//        List<Clazz> clazzList = query.from(qStudent)
-//                .where(qStudent.clazz.id.in(classIds)).fetch();
-//    }
+    @Override
+    public List<String> findStudentNameByClazz(Long id) {
+        QStudent qStudent = QStudent.student;
+        JPAQuery<String> query = new JPAQuery<>(this.entityManager);
+        return query.from(qStudent)
+                .select(qStudent.name)
+                .where(qStudent.clazz.id.eq(id))
+                .fetch();
+
+    }
 
     @Override
     public List<Student> findAllStudent() {

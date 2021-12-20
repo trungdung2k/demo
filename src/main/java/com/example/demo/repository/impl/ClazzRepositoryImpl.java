@@ -28,14 +28,6 @@ public class ClazzRepositoryImpl  implements CustomClazzRepository {
     }
 
     @Override
-    public Long countClazzByTeacher(Teacher id){
-        QClazz qClazz = QClazz.clazz;
-        JPAQuery<Clazz> query = new JPAQuery<>(this.entityManager);
-        return query.from(qClazz)
-                .where(qClazz.teacher.id.eq(id.getId())).fetchCount();
-    }
-
-    @Override
         public List<Clazz> findAllClazz() {
             QClazz qClazz = QClazz.clazz;
         JPAQuery<Clazz> query = new JPAQuery<>(this.entityManager);

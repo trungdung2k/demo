@@ -2,6 +2,7 @@ package com.example.demo.service;
 import com.example.demo.model.Clazz;
 import com.example.demo.model.Teacher;
 import com.example.demo.repository.ClazzRepository;
+import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.TeacherRepository;
 import com.example.demo.request.TeacherRequest;
 import com.example.demo.response.CustomClazzResponse;
@@ -14,7 +15,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class TeacherService implements ITeacherService{
-
+    @Autowired
+    StudentRepository studentRepository;
 
     @Autowired
     ClazzRepository clazzRepository;
@@ -23,10 +25,10 @@ public class TeacherService implements ITeacherService{
     TeacherRepository teacherRepository;
 
     @Autowired
-    public TeacherService(ClazzRepository clazzRepository, TeacherRepository teacherRepository) {
+    public TeacherService(ClazzRepository clazzRepository, TeacherRepository teacherRepository, StudentRepository studentRepository) {
         this.clazzRepository = clazzRepository;
         this.teacherRepository = teacherRepository;
-
+        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -73,7 +75,11 @@ public class TeacherService implements ITeacherService{
             customTeacherResponse.setAge(teacher.getAge());
             customTeacherResponse.setId(teacher.getId());
             List<Clazz> clazzByTeacher = clazzRepository.findClazzByTeacher(teacher.getId());
-            List<CustomClazzResponse> customClazzResponseList = clazzByTeacher.stream().map(CustomClazzResponse::new).collect(Collectors.toList());
+            List<CustomClazzResponse> customClazzResponseList = clazzByTeacher.stream().map(clazz -> {
+                Long studentTotal = studentRepository.countStudentByClazz(clazz.getId());
+                List<String> studentName = studentRepository.findStudentNameByClazz(clazz.getId());
+              return   new  CustomClazzResponse(clazz , studentTotal , studentName);}
+            ).collect(Collectors.toList());
             customTeacherResponse.setClazzList(customClazzResponseList);
             customTeacherResponseList.add(customTeacherResponse);
         });

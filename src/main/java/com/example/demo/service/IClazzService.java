@@ -14,7 +14,5 @@ public interface IClazzService {
 
     boolean deleteClazz(Long id);
 
-//    List<CustomClazzResponse> getClazzByTeacher(Teacher id);
-
     List<CustomClazzResponse> getAllClazz();
 }

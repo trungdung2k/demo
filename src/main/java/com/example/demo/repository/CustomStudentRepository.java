@@ -10,7 +10,8 @@ public interface CustomStudentRepository {
 
     long countStudentByClazz(Long id);
 
-//    Map<Long, Long> countStudentByClazz(List<Long> classIds);
+
+    List<String> findStudentNameByClazz(Long id);
 
     List<Student> findAllStudent();
 }
