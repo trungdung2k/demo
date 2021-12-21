@@ -78,12 +78,10 @@ public class TeacherService implements ITeacherService{
             List<CustomClazzResponse> customClazzResponseList = clazzByTeacher.stream().map(clazz -> {
                 Long studentTotal = studentRepository.countStudentByClazz(clazz.getId());
                 List<String> studentName = studentRepository.findStudentNameByClazz(clazz.getId());
-              return new CustomClazzResponse(clazz , studentTotal , studentName);
+                    return new CustomClazzResponse(clazz , studentTotal , studentName);
             }).collect(Collectors.toList());
             customTeacherResponse.setClazzList(customClazzResponseList);
-            customTeacherResponse.setStudentSum(studentRepository.countStudentByClazz(teacher.getId()));
             customTeacherResponseList.add(customTeacherResponse);
-
         });
         return customTeacherResponseList;
     }

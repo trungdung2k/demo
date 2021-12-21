@@ -37,5 +37,4 @@ public class TeacherController {
     public List<CustomTeacherResponse> getAllTeacher(){
         return iteacherService.getAllTeacher();
     }
-
 }

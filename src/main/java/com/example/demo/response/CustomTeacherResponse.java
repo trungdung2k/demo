@@ -10,7 +10,6 @@ public class CustomTeacherResponse {
     private String nameTeacher;
     private int age;
     private String gender;
-    private Long studentSum;
     private List<CustomClazzResponse> clazzList;
 
 }
