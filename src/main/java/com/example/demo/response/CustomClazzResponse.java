@@ -24,7 +24,6 @@ public class CustomClazzResponse  {
                 this.faculty = clazz.getFaculty();
                 this.studentTotal  = studentTotal;
                 this.studentName = studentName;
-
         }
 
         public CustomClazzResponse() {

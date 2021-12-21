@@ -32,6 +32,20 @@ public class StudentRepositoryImpl  implements CustomStudentRepository {
 
     }
 
+//    @Override
+//    public long countStudentByTeacher(Long studentTotal) {
+//        QStudent qStudent = QStudent.student;
+//        QClazz qClazz = QClazz.clazz;
+//        JPAQuery<Teacher> query = new JPAQuery<>(this.entityManager);
+//        return query.from(qStudent)
+//                .select(qStudent)
+//                .where(qStudent.clazz.id.eq(qStudent.id))
+//                .innerJoin(qClazz)
+//                .on()
+//                .fetchCount();
+//    }
+
+
     @Override
     public List<Student> findAllStudent() {
         QStudent qStudent = QStudent.student;

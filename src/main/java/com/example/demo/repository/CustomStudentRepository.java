@@ -13,5 +13,7 @@ public interface CustomStudentRepository {
 
     List<String> findStudentNameByClazz(Long id);
 
+//    long countStudentByTeacher(Long studentTotal);
+
     List<Student> findAllStudent();
 }
