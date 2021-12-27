@@ -11,5 +11,4 @@ public class CustomTeacherResponse {
     private int age;
     private String gender;
     private List<CustomClazzResponse> clazzList;
-
 }

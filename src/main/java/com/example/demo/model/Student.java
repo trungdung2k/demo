@@ -1,11 +1,14 @@
 package com.example.demo.model;
+import com.querydsl.core.annotations.QueryEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 
 @Entity
 @Data
+@QueryEntity
 @Table(name = "students")
-
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +22,6 @@ public class Student {
 
     @ManyToOne
     private Clazz clazz;
-
-    @ManyToOne
-    private Teacher teacher;
 }
 
 

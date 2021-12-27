@@ -2,12 +2,14 @@ package com.example.demo.service;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.example.demo.request.ClazzRequest;
+import com.example.demo.response.CustomClazz1Response;
 import com.example.demo.response.CustomClazzResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 
@@ -67,23 +69,28 @@ public class ClazzService implements IClazzService{
     }
 
     @Override
-    public List<CustomClazzResponse> getAllClazz() {
-        List<CustomClazzResponse> classes = new  ArrayList<>();
+    public List<CustomClazz1Response> getAllClazz() {
         List<Clazz> clazzList = clazzRepository.findAllClazz();
-        clazzList.forEach(clazz -> {
-          CustomClazzResponse customClazzResponse = new CustomClazzResponse();
-            customClazzResponse.setId(clazz.getId());
-            customClazzResponse.setClazzCode(clazz.getClazzCode());
-            customClazzResponse.setClazzName(clazz.getClazzName());
-            customClazzResponse.setTeacher(clazz.getTeacher());
-            customClazzResponse.setFaculty(clazz.getFaculty());
-            customClazzResponse.setStudentTotal(studentRepository.countStudentByClazz(clazz.getId()));
-            customClazzResponse.setStudentName(studentRepository.findStudentNameByClazz(clazz.getId()));
-            classes.add(customClazzResponse);
-        });
-        Comparator<CustomClazzResponse> compareByStudentTotal =
-                Comparator.comparing(CustomClazzResponse::getStudentTotal);
-        classes.sort(compareByStudentTotal.reversed());
-        return classes;
+        List<Long> ClazzIds = clazzList.stream().map(Clazz::getId).collect(Collectors.toList());
+        List<CustomClazz1Response> customClazzResponseList = studentRepository.listStudentByClazz(ClazzIds);
+
+//        clazzList.forEach(clazz -> {
+//          CustomClazzResponse customClazzResponse = new CustomClazzResponse();
+//            customClazzResponse.setId(clazz.getId());
+//            customClazzResponse.setClazzCode(clazz.getClazzCode());
+//            customClazzResponse.setClazzName(clazz.getClazzName());
+//            customClazzResponse.setTeacher(clazz.getTeacher());
+//            customClazzResponse.setFaculty(clazz.getFaculty());
+//            customClazzResponse.setStudentTotal(studentRepository.countStudentByClazz(clazz.getId()));
+//            customClazzResponse.setStudentName(studentRepository.findStudentNameByClazz(clazz.getId()));
+//            classes.add(customClazzResponse);
+//        });
+
+//        Comparator<customClazzResponseList> compareByStudentTotal =
+//                Comparator.comparing(customClazzResponseList::getStudentTotal);
+//        customClazzResponseList.sort(compareByStudentTotal.reversed());
+        return customClazzResponseList;
     }
+
 }
+

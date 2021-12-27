@@ -79,6 +79,6 @@ public class StudentService implements IStudentService {
 
     @Override
     public List<Student> findAllStudent(){
-        return studentRepository.findAll();
+        return studentRepository.findAllStudent();
     }
 }

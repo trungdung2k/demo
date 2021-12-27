@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 import com.example.demo.model.Clazz;
 import com.example.demo.request.ClazzRequest;
+import com.example.demo.response.CustomClazz1Response;
 import com.example.demo.response.CustomClazzResponse;
 import com.example.demo.service.IClazzService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class ClazzController {
 
 
     @GetMapping("/clazz/list")
-    public List<CustomClazzResponse> getAllClazz(){
+    public List<CustomClazz1Response> getAllClazz(){
         return iclazzService.getAllClazz();
     }
 

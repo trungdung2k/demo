@@ -3,7 +3,10 @@ import com.example.demo.model.Clazz;
 import com.example.demo.model.Faculty;
 import com.example.demo.model.Teacher;
 import lombok.Data;
+import lombok.Generated;
 
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
 import java.util.List;
 
 @Data
@@ -26,6 +29,4 @@ public class CustomClazzResponse  {
                 this.studentName = studentName;
         }
 
-        public CustomClazzResponse() {
-        }
 }
