@@ -52,9 +52,7 @@ public class ClazzRepositoryImpl  implements CustomClazzRepository {
                 .innerJoin(qStudent.clazz, qClazz )
                 .innerJoin(qClazz.teacher, qTeacher)
                 .innerJoin(qClazz.faculty,qFaculty)
-                .where(qStudent.clazz.id.in(ids))
-                .where(qClazz.teacher.id.eq(qTeacher.id))
-                .where(qClazz.faculty.id.eq(qFaculty.id))
+                .where(qStudent.clazz.id.in(ids),qClazz.teacher.id.eq(qTeacher.id),qClazz.faculty.id.eq(qFaculty.id))
                 .groupBy(qClazz.id, qFaculty.id,qTeacher.id)
                 .fetch();
     }

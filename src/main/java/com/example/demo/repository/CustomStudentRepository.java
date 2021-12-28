@@ -10,7 +10,7 @@ public interface CustomStudentRepository {
 
    long countStudentByClazz(Long id);
 
-    List<CustomClazz1Response> listStudentByClazz(List<Long> ids);
+//    List<CustomClazz1Response> listStudentByClazz(List<Long> ids);
 
     List<String> findStudentNameByClazz(Long id);
 
