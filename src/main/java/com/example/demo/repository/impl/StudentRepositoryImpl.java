@@ -23,21 +23,23 @@ public class StudentRepositoryImpl  implements CustomStudentRepository {
                 .where(qStudent.clazz.id.eq(id)).fetchCount();
     }
 
-    @Override
-    public List<CustomClazz1Response> listStudentByClazz(List<Long> ids) {
-        QStudent qStudent = QStudent.student;
-        QClazz qClazz = QClazz.clazz;
-        QTeacher qTeacher = QTeacher.teacher;
-        QFaculty qFaculty = QFaculty.faculty;
-        JPAQuery<Student> query = new JPAQuery<>(this.entityManager);
-        return query.select(Projections.bean(CustomClazz1Response.class, qStudent.clazz.id.count().as("studentTotal"), qClazz.id.as("id"),
-                        qClazz.clazzCode.as("clazzCode"),qClazz.clazzName.as("clazzName")))
-                .from(qStudent)
-                .innerJoin(qStudent.clazz, qClazz)
-                .where(qStudent.clazz.id.in(ids))
-                .groupBy(qClazz.id)
-                .fetch();
-    }
+//    @Override
+//    public List<CustomClazz1Response> listStudentByClazz(List<Long> ids) {
+//        QStudent qStudent = QStudent.student;
+//        QClazz qClazz = QClazz.clazz;
+//        QTeacher qTeacher = QTeacher.teacher;
+//        QFaculty qFaculty = QFaculty.faculty;
+//        JPAQuery<Student> query = new JPAQuery<>(this.entityManager);
+//        return query.select(Projections.bean(CustomClazz1Response.class, qStudent.clazz.id.count().as("studentTotal"), qClazz.id.as("id"),
+//                        qClazz.clazzCode.as("clazzCode"),qClazz.clazzName.as("clazzName")))
+//                .from(qStudent)
+//                .innerJoin(qStudent.clazz, qClazz)
+//                .where(qStudent.clazz.id.in(ids))
+//                .groupBy(qClazz.id)
+//                .fetch();
+//    }
+
+
     @Override
     public List<String> findStudentNameByClazz(Long id) {
         QStudent qStudent = QStudent.student;

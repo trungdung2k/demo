@@ -18,4 +18,5 @@ public interface CustomClazzRepository  {
 
     List<Clazz> findAllClazz();
 
+    List<CustomClazz1Response> listClazz(List<Long> ids);
 }

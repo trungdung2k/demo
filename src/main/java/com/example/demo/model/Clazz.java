@@ -24,4 +24,5 @@ public class Clazz {
 
     @ManyToOne
     private Teacher teacher;
+
 }

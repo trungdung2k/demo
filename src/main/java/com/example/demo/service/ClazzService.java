@@ -72,7 +72,7 @@ public class ClazzService implements IClazzService{
     public List<CustomClazz1Response> getAllClazz() {
         List<Clazz> clazzList = clazzRepository.findAllClazz();
         List<Long> ClazzIds = clazzList.stream().map(Clazz::getId).collect(Collectors.toList());
-        List<CustomClazz1Response> customClazzResponseList = studentRepository.listStudentByClazz(ClazzIds);
+        List<CustomClazz1Response> customClazzResponseList = clazzRepository.listClazz(ClazzIds);
 
 //        clazzList.forEach(clazz -> {
 //          CustomClazzResponse customClazzResponse = new CustomClazzResponse();
