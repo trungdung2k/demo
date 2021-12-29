@@ -13,8 +13,8 @@ public class CustomClazz1Response {
         private String clazzCode;
         private String clazzName;
         private Long studentTotal;
-        private Faculty faculty;
-        private Teacher teacher;
+        private CustomFaculty1Response faculty;
+        private CustomTeacher1Response teacher;
 
 
 }

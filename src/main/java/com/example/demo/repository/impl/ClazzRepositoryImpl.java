@@ -1,10 +1,7 @@
 package com.example.demo.repository.impl;
 import com.example.demo.model.*;
 import com.example.demo.repository.CustomClazzRepository;
-import com.example.demo.response.CustomClazz1Response;
-import com.example.demo.response.CustomClazzResponse;
-import com.example.demo.response.CustomFaculty1Response;
-import com.example.demo.response.CustomTeacher1Response;
+import com.example.demo.response.*;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -47,7 +44,11 @@ public class ClazzRepositoryImpl  implements CustomClazzRepository {
         QFaculty qFaculty = QFaculty.faculty;
         JPAQuery<Student> query = new JPAQuery<>(this.entityManager);
         return query.select(Projections.bean(CustomClazz1Response.class, qStudent.clazz.id.count().as("studentTotal"), qClazz.id.as("id")
-                , qClazz.clazzCode.as("clazzCode"),qClazz.clazzName.as("clazzName"),qClazz.faculty.as("faculty"),qClazz.teacher.as("teacher")))
+                ,qClazz.clazzCode.as("clazzCode"), qClazz.clazzName.as("clazzName"),
+                        Projections.bean(CustomFaculty1Response.class, qClazz.faculty.facultyName.as("facultyName"),qClazz.faculty.id.as("id"),
+                                qClazz.faculty.facultyCode.as("facultyCode")).as("faculty"),
+                        Projections.bean(CustomTeacher1Response.class, qClazz.teacher.id.as("id"),qClazz.teacher.nameTeacher.as("nameTeacher"),
+                                qClazz.teacher.age.as("age"),qClazz.teacher.gender.as("gender")).as("teacher")))
                 .from(qStudent)
                 .innerJoin(qStudent.clazz, qClazz )
                 .innerJoin(qClazz.teacher, qTeacher)
