@@ -43,8 +43,9 @@ public class ClazzRepositoryImpl  implements CustomClazzRepository {
         QTeacher qTeacher = QTeacher.teacher;
         QFaculty qFaculty = QFaculty.faculty;
         JPAQuery<Student> query = new JPAQuery<>(this.entityManager);
-        return query.select(Projections.bean(CustomClazz1Response.class, qStudent.clazz.id.count().as("studentTotal"), qClazz.id.as("id")
-                ,qClazz.clazzCode.as("clazzCode"), qClazz.clazzName.as("clazzName"),
+        return query.select(
+                        Projections.bean(CustomClazz1Response.class, qStudent.clazz.id.count().as("studentTotal"), qClazz.id.as("id")
+                                ,qClazz.clazzCode.as("clazzCode"), qClazz.clazzName.as("clazzName"),
                         Projections.bean(CustomFaculty1Response.class, qClazz.faculty.facultyName.as("facultyName"),qClazz.faculty.id.as("id"),
                                 qClazz.faculty.facultyCode.as("facultyCode")).as("faculty"),
                         Projections.bean(CustomTeacher1Response.class, qClazz.teacher.id.as("id"),qClazz.teacher.nameTeacher.as("nameTeacher"),

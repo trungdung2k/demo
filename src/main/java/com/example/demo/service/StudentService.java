@@ -8,9 +8,12 @@ import com.example.demo.repository.TeacherRepository;
 
 import com.example.demo.request.StudentRequest;
 
+import com.example.demo.response.CustomClazz1Response;
+import com.example.demo.response.CustomStudent1Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -78,7 +81,14 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public List<Student> findAllStudent(){
-        return studentRepository.findAllStudent();
+    public List<CustomStudent1Response> findAllStudent(){
+        List<Student> studentList = studentRepository.findAllStudent();
+        List<Long> StudentIds = studentList.stream().map(Student::getId).collect(Collectors.toList());
+        List<CustomStudent1Response> customStudent1Responses = studentRepository.findListStudent(StudentIds);
+        return customStudent1Responses ;
     }
+//    @Override
+//    public List<CustomClazz1Response> findAllStudent(){
+//        return studentRepository.findAllStudent();
+//    }
 }

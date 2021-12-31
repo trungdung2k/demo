@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 import com.example.demo.model.Student;
 import com.example.demo.request.StudentRequest;
+import com.example.demo.response.CustomClazz1Response;
+import com.example.demo.response.CustomStudent1Response;
 import com.example.demo.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +34,7 @@ public class StudentController {
     }
 
     @GetMapping("/student/list")
-    public List<Student> findAllStudent(){
+    public List<CustomStudent1Response> findAllStudent(){
         return istudentService.findAllStudent();
     }
 }
