@@ -42,7 +42,6 @@ public class StudentRepositoryImpl  implements CustomStudentRepository {
         return  query.from(qStudent).fetchAll().fetch();
     }
 
-
     @Override
     public List<CustomStudent1Response> findListStudent(List<Long> ids) {
         QStudent qStudent = QStudent.student;
@@ -53,7 +52,7 @@ public class StudentRepositoryImpl  implements CustomStudentRepository {
         return  query.select(
                 Projections.bean(CustomStudent1Response.class , qStudent.id.as("id"), qStudent.name.as("name"), qStudent.age.as("age"), qStudent.address.as("address"), qStudent.phone.as("phone"),
                     qStudent.msv.as("msv"), qStudent.gender.as("gender"),
-                Projections.bean(CustomClazz1Response.class,qStudent.clazz.clazzCode.as("clazzCode"), qStudent.clazz.clazzName.as("clazzName"),qStudent.clazz.id.as("id"), qStudent.clazz.id.count().as("studentTotal"),
+                Projections.bean(CustomClazz1Response.class,qStudent.clazz.clazzCode.as("clazzCode"), qStudent.clazz.clazzName.as("clazzName"),qStudent.clazz.id.as("id"),
 
                 Projections.bean(CustomFaculty1Response.class, qClazz.faculty.facultyName.as("facultyName"),qClazz.faculty.id.as("id"),
                                 qClazz.faculty.facultyCode.as("facultyCode")).as("faculty"),

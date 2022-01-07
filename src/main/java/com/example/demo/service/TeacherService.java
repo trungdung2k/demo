@@ -70,7 +70,7 @@ public class TeacherService implements ITeacherService{
 
     @Override
     public List<CustomTeacherResponse> getAllTeacher() {
-        List<CustomTeacherResponse> customTeacherResponseList = new ArrayList<>();
+        List<CustomTeacherResponse> customTeacherResponseList =  new ArrayList<>();
         List<Teacher> teacherList = teacherRepository.findAll();
         teacherList.forEach(teacher -> {
             CustomTeacherResponse customTeacherResponse = new CustomTeacherResponse();
@@ -89,5 +89,4 @@ public class TeacherService implements ITeacherService{
         });
         return customTeacherResponseList;
     }
-
 }
