@@ -1,5 +1,5 @@
 package com.example.demo.repository.impl;
-import com.example.demo.model.*;
+import com.example.demo.entity.*;
 import com.example.demo.repository.CustomTeacherRepository;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.beans.factory.annotation.Autowired;

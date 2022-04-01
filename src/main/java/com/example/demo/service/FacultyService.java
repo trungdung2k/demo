@@ -1,5 +1,5 @@
 package com.example.demo.service;
-import com.example.demo.model.Faculty;
+import com.example.demo.entity.Faculty;
 import com.example.demo.repository.ClazzRepository;
 import com.example.demo.repository.FacultyRepository;
 import com.example.demo.response.CustomFacultyResponse;
@@ -52,7 +52,7 @@ public class FacultyService implements IFacultyService{
     @Override
     public List<CustomFacultyResponse> getAllFaculty(){
         List<CustomFacultyResponse> facultyResponseList = new ArrayList<>();
-        List<Faculty> facultyList = facultyRepository.findAll();
+        List<Faculty> facultyList = facultyRepository.findAllFaculty();
         facultyList.forEach(faculty -> {
             CustomFacultyResponse customFacultyResponse = new CustomFacultyResponse();
             customFacultyResponse.setId(faculty.getId());

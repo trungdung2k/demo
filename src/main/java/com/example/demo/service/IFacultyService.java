@@ -1,5 +1,5 @@
 package com.example.demo.service;
-import com.example.demo.model.Faculty;
+import com.example.demo.entity.Faculty;
 import com.example.demo.response.CustomFacultyResponse;
 
 import java.util.List;

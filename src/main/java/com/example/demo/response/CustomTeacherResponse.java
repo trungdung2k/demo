@@ -1,5 +1,4 @@
 package com.example.demo.response;
-import com.example.demo.model.Clazz;
 import lombok.Data;
 
 import java.util.List;

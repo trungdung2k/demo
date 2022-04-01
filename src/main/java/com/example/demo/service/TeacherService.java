@@ -1,6 +1,9 @@
 package com.example.demo.service;
-import com.example.demo.model.Clazz;
-import com.example.demo.model.Teacher;
+import com.example.demo.constant.MessageConst;
+import com.example.demo.entity.Clazz;
+import com.example.demo.entity.Student;
+import com.example.demo.entity.Teacher;
+import com.example.demo.exception.BasicException;
 import com.example.demo.repository.ClazzRepository;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.TeacherRepository;
@@ -11,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,26 +41,29 @@ public class TeacherService implements ITeacherService{
     }
 
     @Override
-    public Teacher addTeacher(TeacherRequest teacherRequest){
-        Teacher teacher1 = new Teacher();
-        teacher1.setNameTeacher(teacherRequest.getNameTeacher());
-        teacher1.setAge(teacherRequest.getAge());
-        teacher1.setGender(teacherRequest.getGender());
-        Clazz clazz = clazzRepository.findOne(teacherRequest.getClazzId());
-        teacher1.setClazz(clazz);
-        return teacherRepository.save(teacher1);
+    public void  addTeacher(TeacherRequest request) {
+        Optional<Clazz> clazzOptional = clazzRepository.findById(request.getClazzId());
+        if (!clazzOptional.isPresent()) {
+            throw BasicException.INVALID_ARGUMENT.withMessage(MessageConst.CLAZZ_NOT_FOUND)
+                    .addErrors(MessageConst.CLAZZ_E0001);
         }
 
+        Teacher teacher = request.asCreatedTeacher();
+        teacherRepository.save(teacher);
+
+    }
+
     @Override
-    public void updateTeacher(Long id, Teacher teacher){
-        if (teacher != null){
-            Teacher teacher1 = teacherRepository.getById(id);
-            teacher1.setNameTeacher(teacher.getNameTeacher());
-            teacher1.setAge(teacher.getAge());
-            teacher1.setGender(teacher.getGender());
-            teacher1.setClazz(teacher.getClazz());
-            teacherRepository.save(teacher1);
+    public void updateTeacher( TeacherRequest request){
+        Optional<Clazz> clazzOptional = clazzRepository.findById(request.getClazzId());
+        if (!clazzOptional.isPresent()) {
+            throw BasicException.INVALID_ARGUMENT.withMessage(MessageConst.CLAZZ_NOT_FOUND)
+                    .addErrors(MessageConst.CLAZZ_E0001);
         }
+
+        Teacher teacher = getTeacher(request.getId());
+        teacher = request.asUpdatedTeacher(teacher);
+        teacherRepository.save(teacher);
     }
 
     @Override
@@ -88,5 +96,19 @@ public class TeacherService implements ITeacherService{
             customTeacherResponseList.add(customTeacherResponse);
         });
         return customTeacherResponseList;
+    }
+
+    public Teacher getTeacher (Long id){
+        if (Objects.isNull(id)){
+            throw BasicException.INVALID_ARGUMENT.withMessage(MessageConst.ID_TEACHER_EMPTY)
+                    .addErrors(MessageConst.TEACHER_E0002);
+        }
+
+        Optional<Teacher> teacherOptional = teacherRepository.findByIdAndDeleteFalse(id);
+        if (!teacherOptional.isPresent()){
+            throw BasicException.INVALID_ARGUMENT.withMessage(MessageConst.CLAZZ_NOT_FOUND)
+                    .addErrors(MessageConst.CLAZZ_E0001);
+        }
+        return teacherOptional.get();
     }
 }

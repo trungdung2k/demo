@@ -1,5 +1,5 @@
 package com.example.demo.repository.impl;
-import com.example.demo.model.*;
+import com.example.demo.entity.*;
 import com.example.demo.repository.CustomStudentRepository;
 import com.example.demo.response.CustomClazz1Response;
 import com.example.demo.response.CustomFaculty1Response;
@@ -42,6 +42,7 @@ public class StudentRepositoryImpl  implements CustomStudentRepository {
         return  query.from(qStudent).fetchAll().fetch();
     }
 
+
     @Override
     public List<CustomStudent1Response> findListStudent(List<Long> ids) {
         QStudent qStudent = QStudent.student;
@@ -64,6 +65,22 @@ public class StudentRepositoryImpl  implements CustomStudentRepository {
                 .innerJoin(qClazz.teacher,qTeacher)
                 .where(qClazz.id.in(ids) , qClazz.faculty.id.eq(qFaculty.id),qClazz.teacher.id.eq(qTeacher.id))
                 .groupBy(qStudent.id , qClazz.id, qFaculty.id , qTeacher.id)
+                .fetch();
+    }
+
+    @Override
+    public List<CustomStudent1Response> findListStudentByClazzName(String clazzName){
+        QStudent qStudent = QStudent.student;
+        QClazz qClazz = QClazz.clazz;
+        JPAQuery<Student> query = new JPAQuery<>(this.entityManager);
+        return  query.select(
+                        Projections.bean(CustomStudent1Response.class , qStudent.id.as("id"), qStudent.name.as("name"), qStudent.age.as("age"), qStudent.address.as("address"), qStudent.phone.as("phone"),
+                                qStudent.msv.as("msv"), qStudent.gender.as("gender"),
+                        Projections.bean(CustomClazz1Response.class,qStudent.clazz.clazzCode.as("clazzCode"), qStudent.clazz.clazzName.as("clazzName"),qStudent.clazz.id.as("id")).as("clazz")))
+                .from(qStudent)
+                .innerJoin(qStudent.clazz, qClazz)
+                .where(qClazz.clazzName.eq(qStudent.clazz.clazzName))
+                .groupBy(qStudent.id, qClazz.id )
                 .fetch();
     }
 }

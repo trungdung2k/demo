@@ -1,22 +1,22 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 import com.querydsl.core.annotations.QueryEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import javax.persistence.metamodel.SingularAttribute;
-import javax.persistence.metamodel.StaticMetamodel;
 
 
 @Data
 @Entity
-@QueryEntity
 @Table(name = "clazzs")
 public class Clazz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(length = 50)
     private String clazzCode;
+
+    @Column(length = 50)
     private String clazzName;
 
     @ManyToOne

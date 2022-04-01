@@ -1,7 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.Clazz;
-import com.example.demo.model.Teacher;
+import com.example.demo.entity.Teacher;
 
 import java.util.List;
 

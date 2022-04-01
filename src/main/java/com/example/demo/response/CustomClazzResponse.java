@@ -1,12 +1,9 @@
 package com.example.demo.response;
-import com.example.demo.model.Clazz;
-import com.example.demo.model.Faculty;
-import com.example.demo.model.Teacher;
+import com.example.demo.entity.Clazz;
+import com.example.demo.entity.Faculty;
+import com.example.demo.entity.Teacher;
 import lombok.Data;
-import lombok.Generated;
 
-import javax.persistence.metamodel.SingularAttribute;
-import javax.persistence.metamodel.StaticMetamodel;
 import java.util.List;
 
 @Data

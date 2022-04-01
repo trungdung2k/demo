@@ -1,8 +1,7 @@
 package com.example.demo.repository.impl;
-import com.example.demo.model.*;
+import com.example.demo.entity.*;
 import com.example.demo.repository.CustomClazzRepository;
 import com.example.demo.response.*;
-import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.beans.factory.annotation.Autowired;

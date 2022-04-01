@@ -1,10 +1,5 @@
 package com.example.demo.response;
-import com.example.demo.model.Faculty;
-import com.example.demo.model.Student;
-import com.example.demo.model.Teacher;
 import lombok.Data;
-
-import java.util.List;
 
 
 @Data

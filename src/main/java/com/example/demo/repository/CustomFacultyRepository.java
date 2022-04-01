@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.Faculty;
+import com.example.demo.entity.Faculty;
 
 import java.util.List;
 

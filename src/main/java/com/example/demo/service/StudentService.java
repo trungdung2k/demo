@@ -1,6 +1,8 @@
 package com.example.demo.service;
-import com.example.demo.model.Clazz;
-import com.example.demo.model.Student;
+import com.example.demo.constant.MessageConst;
+import com.example.demo.entity.Clazz;
+import com.example.demo.entity.Student;
+import com.example.demo.exception.BasicException;
 import com.example.demo.repository.ClazzRepository;
 import com.example.demo.repository.FacultyRepository;
 import com.example.demo.repository.StudentRepository;
@@ -8,11 +10,12 @@ import com.example.demo.repository.TeacherRepository;
 
 import com.example.demo.request.StudentRequest;
 
-import com.example.demo.response.CustomClazz1Response;
 import com.example.demo.response.CustomStudent1Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -41,33 +44,41 @@ public class StudentService implements IStudentService {
         this.facultyRepository = facultyRepository;
     }
     @Override
-    public void addStudent(StudentRequest studentRequest){
-        Student student1 = new Student();
-        student1.setName(studentRequest.getName());
-        student1.setAge(studentRequest.getAge());
-        student1.setAddress(studentRequest.getAddress());
-        student1.setGender(studentRequest.getGender());
-        student1.setPhone(studentRequest.getPhone());
-        student1.setMsv(studentRequest.getMsv());
-        Clazz clazz = clazzRepository.findOne(studentRequest.getClazzId());
-        student1.setClazz(clazz);
-        studentRepository.save(student1);
+    public void addStudent(StudentRequest request){
+
+        // validate class
+        Optional<Clazz> clazzOptional = clazzRepository.findById(request.getClazzId());
+        if (!clazzOptional.isPresent()){
+            throw BasicException.INVALID_ARGUMENT.withMessage(MessageConst.CLAZZ_NOT_FOUND)
+                    .addErrors(MessageConst.CLAZZ_E0001);
+        }
+
+        // add Student
+        Student student = request.asAddStudent();
+        studentRepository.save(student);
 
     }
 
     @Override
-    public void updateStudent(long id, Student student){
-        if (student != null){
-            Student student1 = studentRepository.getById(id);
-            student1.setName(student.getName());
-            student1.setAge(student.getAge());
-            student1.setAddress(student.getAddress());
-            student1.setGender(student.getGender());
-            student1.setPhone(student.getPhone());
-            student1.setMsv(student.getMsv());
-            student1.setClazz(student.getClazz());
-            studentRepository.save(student1);
+    public void updateStudent(StudentRequest request){
+
+        // validate class
+                Optional<Clazz> clazzOptional = clazzRepository.findById(request.getClazzId());
+                if (!clazzOptional.isPresent()){
+                    throw BasicException.INVALID_ARGUMENT.withMessage(MessageConst.CLAZZ_NOT_FOUND)
+                            .addErrors(MessageConst.CLAZZ_E0001);
+
        }
+        // validate mã sinh viên vì mã sinh viên không thể trùng
+        Student student = getStudent(request.getId());
+        if (studentRepository.exitsByMsvAndIdNot(request.getMsv(), student.getId())){
+            throw BasicException.INVALID_ARGUMENT.withMessage(MessageConst.MSV_STUDENT_EXITS)
+                    .addErrors(MessageConst.STUDENT_E0003);
+        }
+
+        //update
+        student = request.asUpdateStudent(student);
+        studentRepository.save(student);
     }
 
     @Override
@@ -87,8 +98,19 @@ public class StudentService implements IStudentService {
         List<CustomStudent1Response> customStudent1Responses = studentRepository.findListStudent(StudentIds);
         return customStudent1Responses ;
     }
-//    @Override
-//    public List<CustomClazz1Response> findAllStudent(){
-//        return studentRepository.findAllStudent();
-//    }
+
+
+    public Student getStudent(Long id){
+        if (Objects.isNull(id)){
+            throw BasicException.INVALID_ARGUMENT.withMessage(MessageConst.ID_STUDENT_EMPTY)
+                    .addErrors(MessageConst.STUDENT_EOOO2);
+        }
+
+        Optional<Student> studentOptional = studentRepository.findByIdAndDeleteFalse(id);
+        if (!studentOptional.isPresent()){
+            throw BasicException.INVALID_ARGUMENT.withMessage(MessageConst.STUDENT_NOT_FOUND)
+                    .addErrors(MessageConst.STUDENT_E0001);
+        }
+        return studentOptional.get();
+    }
 }
