@@ -55,6 +55,7 @@ public class StudentService implements IStudentService {
 
         // add Student
         Student student = request.asAddStudent();
+        student.setClazz(clazzRepository.getById(request.getClazzId()));
         studentRepository.save(student);
 
     }
@@ -78,6 +79,7 @@ public class StudentService implements IStudentService {
 
         //update
         student = request.asUpdateStudent(student);
+        student.setClazz(clazzRepository.getById(request.getClazzId()));
         studentRepository.save(student);
     }
 
